@@ -1,19 +1,18 @@
+
 import requests
-import urllib.request
-import time
 from bs4 import BeautifulSoup
+#https://www.sec.gov/Archives/edgar/data
+baseUrl = input('Enter Url:>')
 
-url = input('Enter URL:>')
+cikNum = '/866982/'
+
+filingsUrl = baseUrl
+#basically just gathers financial data from the SEC
+content = requests.get(filingsUrl)
+source = content.text
+file = open('gathered.txt', 'w')
+file.write(str(source))
+#decoded_content = content.json()
+#decoded_content
 
 
-response = requests.get(url)
-
-
-soup = BeautifulSoup(response.text, "html.parser")
-
-
-for one_a_tag in soup.findAll('a'):
-        link = one_a_tag['href']
-        download_url = url + link
-        urllib.request.urlretrieve(download_url,'./'+link[link.find('filename')+1:])
-        time.sleep(1)
